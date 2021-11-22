@@ -1,12 +1,12 @@
 <?php
 
-class ViewDB extends DB
+class ViewDB
 {
     function __construct() {
     }
     public function viewDb($sql)
     {
-        $rows = parent::getData($sql);
+        $rows = DB::getData($sql);
         foreach ($rows as $row) {
             print("Author: " . $row['author'] . "<br>");
         }

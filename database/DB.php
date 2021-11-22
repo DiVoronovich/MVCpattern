@@ -32,4 +32,13 @@ class DB
     {
         return $this->connection;
     }
+
+    public function getData($sql)
+    {
+        $instance = self::getInstance();
+        $conn = $instance->getConnection();
+        $result = mysqli_query($conn, $sql);
+        $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
+        return $rows;
+    }
 }

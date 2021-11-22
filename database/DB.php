@@ -2,42 +2,32 @@
 
 class DB
 {
-    private static $instance;
-    private $connection;
-    private $host = 'mysql';
-    private $user = 'root';
-    private $password = 'root';
-    private $db = 'article';
+    private static $connection;
+    private static $host = 'mysql';
+    private static $user = 'root';
+    private static $password = 'root';
+    private static $db = 'article';
 
     private function __construct()
     {
-        $this->connection = mysqli_connect($this->host, $this->user, $this->password, $this->db);
-
-        if ($this->connection == false) {
-            print("Error: unable to connect to MySQL " . mysqli_connect_error());
-        } else {
-            print("Connection with database established successfully" . "<br>");
-        }
     }
 
-    public static function getInstance()
+    public static function getConnection()
     {
-        if (empty(self::$instance)) {
-            self::$instance = new self();
+        if (empty(self::$connection)) {
+            self::$connection = mysqli_connect(self::$host, self::$user, self::$password, self::$db);
+            if (self::$connection == false) {
+                print("Error: unable to connect to MySQL " . mysqli_connect_error());
+            } else {
+                print("Connection with database established successfully" . "<br>");
+            }
         }
-        return self::$instance;
-    }
-
-    public function getConnection()
-    {
-        return $this->connection;
+        return self::$connection;
     }
 
     public function getData($sql)
     {
-        $instance = self::getInstance();
-        $conn = $instance->getConnection();
-        $result = mysqli_query($conn, $sql);
+        $result = mysqli_query(self::getConnection(), $sql);
         $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
         return $rows;
     }

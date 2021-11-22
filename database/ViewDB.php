@@ -1,9 +1,13 @@
 <?php
 
+//include "DB.php";
+
 class ViewDB
 {
-    function __construct() {
+    function __construct()
+    {
     }
+
     public function viewDb($sql)
     {
         $rows = DB::getData($sql);

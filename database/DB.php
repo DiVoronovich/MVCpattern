@@ -1,34 +1,72 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * Class to work with the database.
+ */
 class DB
 {
-    private static $connection;
-    private static $host = 'mysql';
-    private static $user = 'root';
-    private static $password = 'root';
-    private static $db = 'article';
+    /**
+     * Connection with the database.
+     *
+     * @var mysqli|null
+     */
+    private static ?mysqli $connection = null;
 
+    /**
+     * @var string
+     */
+    private static string $host = 'mysql';
+
+    /**
+     * @var string
+     */
+    private static string $user = 'root';
+
+    /**
+     * @var string
+     */
+    private static string $password = 'root';
+
+    /**
+     * @var string
+     */
+    private static string $db = 'article';
+
+    /**
+     * Pattern singleton implemented to prevent multiple database connections.
+     */
     private function __construct()
     {
     }
 
-    public static function getConnection()
+    /**
+     * Establish the connection with the database.
+     *
+     * @return mysqli
+     * @throws Exception
+     */
+    private static function getConnection(): mysqli
     {
-        if (empty(self::$connection)) {
-            self::$connection = mysqli_connect(self::$host, self::$user, self::$password, self::$db);
-            if (self::$connection == false) {
-                print("Error: unable to connect to MySQL " . mysqli_connect_error());
-            } else {
-                print("Connection with database established successfully" . "<br>");
+        if (self::$connection === null) {
+            $mysqli = mysqli_connect(self::$host, self::$user, self::$password, self::$db);
+            if (self::$connection === false) {
+                throw new Exception("Error: unable to connect to MySQL " . mysqli_connect_error());
             }
+            self::$connection = $mysqli;
         }
         return self::$connection;
     }
 
-    public function getData($sql)
+    /**
+     * @param $sql
+     * @return string[][]
+     * @throws Exception
+     */
+    public static function getData($sql): array
     {
         $result = mysqli_query(self::getConnection(), $sql);
-        $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
-        return $rows;
+        return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 }

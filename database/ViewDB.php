@@ -1,17 +1,19 @@
 <?php
 
-//include "DB.php";
+declare(strict_types=1);
 
+/**
+ * Responsible for authors list output.
+ */
 class ViewDB
 {
-    function __construct()
+    /**
+     * @param string[][] $authorsList
+     * @return void
+     */
+    public function output(array $authorsList): void
     {
-    }
-
-    public function viewDb($sql)
-    {
-        $rows = DB::getData($sql);
-        foreach ($rows as $row) {
+        foreach ($authorsList as $row) {
             print("Author: " . $row['author'] . "<br>");
         }
     }

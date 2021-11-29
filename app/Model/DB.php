@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+namespace Coffee\Model;
+
+use Exception;
+use mysqli;
+
 /**
  * Class to work with the database.
  */
@@ -47,7 +52,7 @@ class DB
      * @return mysqli
      * @throws Exception
      */
-    private static function getConnection(): mysqli
+    protected static function getConnection(): mysqli
     {
         if (self::$connection === null) {
             $mysqli = mysqli_connect(self::$host, self::$user, self::$password, self::$db);
@@ -57,16 +62,5 @@ class DB
             self::$connection = $mysqli;
         }
         return self::$connection;
-    }
-
-    /**
-     * @param $sql
-     * @return string[][]
-     * @throws Exception
-     */
-    public static function getData($sql): array
-    {
-        $result = mysqli_query(self::getConnection(), $sql);
-        return mysqli_fetch_all($result, MYSQLI_ASSOC);
     }
 }

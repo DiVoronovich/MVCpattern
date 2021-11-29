@@ -1,0 +1,23 @@
+<div>List of authors</div>
+<br>
+<?php use Coffee\Model\DB\View;
+
+$sql = 'SELECT id, author FROM authors';
+$authorsList = View::execute($sql);
+$author = explode(' ', $authorsList[0]['author']); ?>
+<table>
+    <td>Id_author</td>
+    <td>Name</td>
+    <?php foreach ($authorsList as $item): ?>
+        <tr>
+            <td><?= $item['id'] ?></td>
+            <td><?= $item['author']; ?></td>
+            <td><a href="/EditAuthor/id/<?= $item['id']; ?>">Edit</a></td>
+            <td><a href="/DeleteAuthor/id/<?= $item['id']; ?>">Delete</a></td>
+        </tr>
+    <?php endforeach; ?>
+</table>
+
+
+<br>
+<a href="/CreateAuthor">Add author</a>

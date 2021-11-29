@@ -1,0 +1,14 @@
+<div>Enter, please, author's name and surname</div>
+<br>
+<?php
+
+use Coffee\Model\DB\View;
+
+$route = explode('/', $_SERVER['REQUEST_URI']);
+$authorId = $route[3];
+$sql = 'SELECT * FROM authors WHERE id = ' . $authorId . ';';
+$authorsList = View::execute($sql); ?>
+<form method="POST" action="/SaveAuthor/id/<?= $authorsList[0]['id']; ?>">
+    <input type="text" name="name" value="<?= $authorsList[0]['author']; ?>"/><br/>
+    <button type="submit" value="Button Name">Save</button>
+</form>

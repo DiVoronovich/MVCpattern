@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Coffee;
 
+use Coffee\Controller\ControllerInterface;
+
 /**
  * @api
  *
@@ -14,5 +16,5 @@ interface RouterInterface
     /**
      * @return void
      */
-    public function match(): ?object;
+    public function match(): ?ControllerInterface;
 }

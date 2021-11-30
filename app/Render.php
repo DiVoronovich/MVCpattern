@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Coffee;
 
-use Exception;
-
 class Render
 {
     /**
@@ -13,7 +11,6 @@ class Render
      *
      * @param string $template path to the template
      * @return void
-     * @throws Exception
      */
     public static function renderPhtml(string $template): void
     {

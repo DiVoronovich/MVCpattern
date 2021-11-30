@@ -9,17 +9,25 @@ use Coffee\Controller\ControllerInterface;
 class FrontController
 {
     /**
+     * @var object[]
+     */
+    private array $routes;
+
+    /**
+     * @param object[] $routes
+     */
+    public function __construct(array $routes)
+    {
+        $this->routes = $routes;
+    }
+    /**
      * Selects the desired router
      *
      * @return void
      */
     public function execute(): void
     {
-        $routes = [
-            new Router,
-            new DefaultRouter,
-        ];
-        foreach ($routes as $route) {
+        foreach ($this->routes as $route) {
             $controller = $route->match();
             if ($controller instanceof ControllerInterface) {
                 break;

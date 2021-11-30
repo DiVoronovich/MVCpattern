@@ -5,29 +5,37 @@ declare(strict_types=1);
 namespace Coffee;
 
 use Coffee\Controller\ControllerInterface;
+use Exception;
 
 class FrontController
 {
     /**
-     * @var object[]
+     * @var RoutesPool
      */
-    private array $routes;
+    private RoutesPool $pool;
 
     /**
-     * @param object[] $routes
+     * FrontController constructor
      */
-    public function __construct(array $routes)
+    public function __construct()
     {
-        $this->routes = $routes;
+        $this->pool = new RoutesPool(
+            [
+                new Router(),
+                new DefaultRouter(),
+            ]
+        );
     }
+
     /**
      * Selects the desired router
      *
      * @return void
+     * @throws Exception
      */
     public function execute(): void
     {
-        foreach ($this->routes as $route) {
+        foreach ($this->pool->getList() as $route) {
             $controller = $route->match();
             if ($controller instanceof ControllerInterface) {
                 break;

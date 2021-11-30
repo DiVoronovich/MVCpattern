@@ -20,12 +20,14 @@ class SaveAuthor implements ControllerInterface
     {
         $route = explode('/', $_SERVER['REQUEST_URI']);
         $authorId = $route[3];
-        if ($authorId) {
-            $sql = 'UPDATE authors SET author = \'' . $_POST['name'] . '\' WHERE authors.id = ' . $authorId . ';';
-            Update::execute($sql);
-        } else {
-            $sql = 'INSERT authors (author, status_id, date_of_registration) VALUES (\'' . $_POST['name'] .  '\', 1, CURDATE())';
-            Insert::execute($sql);
+        if ($_POST['name']) {
+            if ($authorId) {
+                $sql = 'UPDATE authors SET author = \'' . $_POST['name'] . '\' WHERE authors.id = ' . $authorId . ';';
+                Update::execute($sql);
+            } else {
+                $sql = 'INSERT authors (author, status_id, date_of_registration) VALUES (\'' . $_POST['name'] .  '\', 1, CURDATE())';
+                Insert::execute($sql);
+            }
         }
         header('Location: http://localhost/');
     }
